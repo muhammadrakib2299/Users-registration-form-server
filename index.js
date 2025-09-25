@@ -4,16 +4,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-// middlewire
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Database => rakib --> rakib1234
-// mongodb connection url
+// MongoDB connection URI
 const uri =
   "mongodb+srv://rakib:rakib1234@cluster0.bbzqc1c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// MongoClient setup
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -24,30 +23,35 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server
     await client.connect();
 
-    // Create user - post method
-    app.post("/users", (req, res) => {
-      console.log("data in ther server: ", req.body);
+    const database = client.db("usersdb");
+    const usersCollection = database.collection("users");
+
+    // POST route - Create new user
+    app.post("/users", async (req, res) => {
+      try {
+        const newUser = req.body;
+        const result = await usersCollection.insertOne(newUser);
+        res.status(201).json({ message: "User added", id: result.insertedId });
+      } catch (error) {
+        console.error("Insert error:", error);
+        res.status(500).json({ message: "Insert failed" });
+      }
     });
 
-    // Optional - if you want you can comment this
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    await client.close();
+    // Ping check
+    //await client.db("admin").command({ ping: 1 });
+    //console.log("Pinged your deployment. Successfully connected to MongoDB!");
+
+    // Start server only after DB connects
+  } catch (err) {
+    console.error(" Connection error:", err);
   }
 }
+
 run().catch(console.dir);
 
-// root - read only
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
-
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(` Server listening on http://localhost:${port}`);
 });
