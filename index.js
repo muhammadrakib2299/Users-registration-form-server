@@ -26,6 +26,13 @@ async function run() {
   try {
     // Connect the client to the server
     await client.connect();
+
+    // Create user - post method
+    app.post("/users", (req, res) => {
+      console.log("data in ther server: ", req.body);
+    });
+
+    // Optional - if you want you can comment this
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
