@@ -43,8 +43,6 @@ async function run() {
     // Ping check
     //await client.db("admin").command({ ping: 1 });
     //console.log("Pinged your deployment. Successfully connected to MongoDB!");
-
-    // Start server only after DB connects
   } catch (err) {
     console.error(" Connection error:", err);
   }
