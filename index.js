@@ -56,11 +56,28 @@
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const port = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+
+const users = [
+  { id: 1, name: "Rakib", email: "rakib@gmail.com" },
+  { id: 2, name: "fahim", email: "rakib@gmail.com" },
+  { id: 3, name: "rohib", email: "rakib@gmail.com" },
+  { id: 4, name: "rafi", email: "rakib@gmail.com" },
+  { id: 5, name: "rohan", email: "rakib@gmail.com" },
+];
+
+app.get("/users", (req, res) => {
+  res.send(users);
+});
+
+app.post("/users", (req, res) => {});
 
 app.listen(port, () => {
   console.log(`Users server running on port ${port}`);
