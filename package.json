@@ -1,18 +1,22 @@
 {
-  "name": "simple-crud",
+  "name": "users-registration-form-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express + MongoDB API that stores users submitted from the registration form client.",
+  "author": "Md. Rakib (https://devrakib.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhammadrakib2299/Users-registration-form-server.git"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "mongodb": "^6.20.0"
   }
